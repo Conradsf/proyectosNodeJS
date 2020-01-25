@@ -4,9 +4,14 @@
  * const fs = require ('fs'); // es una libreria propia de node.js
  */
 const { crearArchivo } = require('./multiplicar/multiplicar');
-let base = 5;
 
-console.log(process);
+// console.log(process); //información de la máquina
+// console.log(process); //ubicaciones de node y de la app.
+
+let argv = process.argv;
+let parametro = argv[2];
+let base = parametro.split('=')[1];
+
 crearArchivo(base)
     .then(archivo => console.log(`Archivo creado: ${ archivo }`))
     .catch(e => console.log(e));
