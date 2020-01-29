@@ -15,19 +15,29 @@
  * const fs = require ('fs'); // es una libreria propia de node.js
  */
 
-const argv = require('yargs')
-    .command('listar', 'Imprime en consola la tabla de multiplicar', {
-        base: {
-            demand: true, //obligatorio? si.
-            alias: 'b'
-        },
-        limite: {
-            alias: 'l',
-            default: 10
-        }
-    })
-    .argv;
-const { crearArchivo } = require('./multiplicar/multiplicar');
+const argv = require('./config/yargs').argv; //primero requerimos el archivo yargs.js y luego sólo recuperamos .argv del archivo
+
+
+const { crearArchivo, listarTabla } = require('./multiplicar/multiplicar');
+
+let comando = argv._[0]
+
+//console.log(argv);
+
+switch (comando) {
+    case 'listar':
+        listarTabla(argv.base, argv.limite);
+        break;
+
+    case 'crear':
+        crearArchivo(argv.base, argv.limite) //si pusieramos solo base no funcionaria. ya que ahora el let se llama argv.
+            .then(archivo => console.log(`Archivo creado: ${ archivo }`))
+            .catch(e => console.log(e));
+        break;
+
+    default:
+        console.log('Comando no encontrado');
+}
 
 // console.log(process); //información de la máquina
 // console.log(process); //ubicaciones de node y de la app.
@@ -36,11 +46,16 @@ const { crearArchivo } = require('./multiplicar/multiplicar');
 // let parametro = argv[2];
 // let base = parametro.split('=')[1];
 
-let argv2 = process.argv;
 
-console.log('Limite', argv.limite); //YARGS
+/*
+let argv2 = process.argv; //comprobar el code: node app listar --help
+console.log('Limite', argv.limite); 
+*/
+
+//YARGS
 //console.log(argv2); //PROCESOS
+
+/* Node nos permite grabar esta información en un archivo de txt. */
 // crearArchivo(base)
 //     .then(archivo => console.log(`Archivo creado: ${ archivo }`))
 //     .catch(e => console.log(e));
-/* Node nos permite grabar esta información en un archivo de txt. */
