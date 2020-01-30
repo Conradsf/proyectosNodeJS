@@ -16,7 +16,7 @@
  */
 
 const argv = require('./config/yargs').argv; //primero requerimos el archivo yargs.js y luego sólo recuperamos .argv del archivo
-
+const colors = require('colors/safe');
 
 const { crearArchivo, listarTabla } = require('./multiplicar/multiplicar');
 
@@ -31,7 +31,7 @@ switch (comando) {
 
     case 'crear':
         crearArchivo(argv.base, argv.limite) //si pusieramos solo base no funcionaria. ya que ahora el let se llama argv.
-            .then(archivo => console.log(`Archivo creado: ${ archivo }`))
+            .then(archivo => console.log(`Archivo creado: `, colors.green(archivo))) //poniendo el color asi permite evitar confusiones con un string
             .catch(e => console.log(e));
         break;
 
