@@ -1,12 +1,15 @@
-const argv = require('yargs').argv;
+//const argv = require('yargs').argv;
+const argv = require('./config/yargs').argv;
+const porHacer = require('./por-hacer/por-hacer');
 
-console.log(argv);
 
 let comando = argv._[0];
 
 switch (comando) {
+
     case 'crear':
-        console.log('Crear por hacer');
+        let tarea = porHacer.crear(argv.descripcion); //esta función retorna una tarea por hacer.
+        console.log(tarea); // { descripcion: 'pasear al perro', completado: false }
         break;
 
     case 'listar':
@@ -18,5 +21,5 @@ switch (comando) {
         break;
 
     default:
-        console.log('Comando no encontrado');
+        console.log('Comando no es encontrado');
 }
